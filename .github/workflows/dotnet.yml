@@ -48,7 +48,7 @@ jobs:
         name: ${{ matrix.os }}
         path: ${{ github.workspace }}/build
   publish:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: windows-latest
 
