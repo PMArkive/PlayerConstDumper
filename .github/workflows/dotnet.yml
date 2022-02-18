@@ -80,7 +80,7 @@ jobs:
        run: |
           pushd ${{ github.workspace }}
           cd build
-          7z a "${{ github.workspace}}/PlayerConstDumper.zip" *.* -r
+          7z a "${{ github.workspace}}/PlayerConstDumper.zip" osx-x64 linux-x64 win-x64
           popd
      - uses: "marvinpinto/action-automatic-releases@latest"
        with:
