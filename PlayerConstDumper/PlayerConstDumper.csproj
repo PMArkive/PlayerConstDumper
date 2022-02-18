@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<!--Nullable is disabled to prevent stupid warnings I don't understand.-->
+    <Nullable>disable</Nullable>
+    <Authors>Lord-Giganticus</Authors>
+    <Description>A quick and simple dumper of the Const.bin files from SMG2.
+Created using infromation from SuperHackio's SMG2MarioConstEditor.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LordG.IO" Version="1.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>
