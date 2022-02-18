@@ -47,3 +47,46 @@ jobs:
       with:
         name: ${{ matrix.os }}
         path: ${{ github.workspace }}/build
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+     - uses: actions/checkout@v2
+     - shell: cmd
+       run: |
+          cd ${{ github.workspace }}
+          mkdir build
+          pushd %CD%
+          cd build
+          mkdir win-x64
+          mkdir linux-x64
+          mkdir osx-x64
+          popd
+     - uses: actions/download-artifact@v2.1.0
+       with:
+        name: win-x64
+        path: ${{ github.workspace }}/build/win-x64
+     - uses: actions/download-artifact@v2.1.0
+       with:
+        name: linux-x64
+        path: ${{ github.workspace }}/build/linux-x64  
+     - uses: actions/download-artifact@v2.1.0
+       with:
+        name: osx-x64
+        path: ${{ github.workspace }}/build/osx-x64  
+     - shell: cmd
+       run: |
+          pushd ${{ github.workspace }}
+          cd build
+          7z a "${{ github.workspace}}/PlayerConstDumper.zip" *.* -r
+          popd
+     - uses: "marvinpinto/action-automatic-releases@latest"
+       with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "Auto"
+        prerelease: true
+        title: "Auto Build"
+        files: |
+          *.zip
