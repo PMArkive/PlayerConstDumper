@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.ComponentModel;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace PlayerConstDumper
 {
@@ -5413,39 +5414,15 @@ namespace PlayerConstDumper
 
         public override string ToString()
         {
-            var builder = new StringBuilder();
             var dict = CreateDictionary();
-            foreach (var pair in dict)
-            {
-                if (!pair.Equals(dict.Last()))
-                {
-                    builder.Append(pair.Key);
-                    builder.Append('=');
-                    builder.Append(pair.Value);
-                    builder.Append(Environment.NewLine);
-                } else
-                {
-                    builder.Append(pair.Key);
-                    builder.Append('=');
-                    builder.Append(pair.Value);
-                    break;
-                }
-            }
-            return builder.ToString();
+            return JsonConvert.SerializeObject(dict, Formatting.Indented);
         }
 
         public static PlayerConst FromFile(FileInfo file)
         {
             var res = new PlayerConst();
-            var lines = File.ReadAllLines(file.FullName);
-            Dictionary<string, string> dict = new();
-            foreach (var line in lines)
-            {
-                var split = line.Split('=');
-                var name = split[0];
-                var value = split[1];
-                dict.Add(name, value);
-            }
+            var text = File.ReadAllText(file.FullName);
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
             foreach (var prop in typeof(PlayerConst).GetProperties())
             {
                 var proptype = prop.PropertyType;
