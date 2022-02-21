@@ -1,7 +1,7 @@
-﻿using System.Text;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using Newtonsoft.Json;
+using ValueDict = System.Collections.Generic.Dictionary<string, string>;
 
 namespace PlayerConstDumper
 {
@@ -5394,9 +5394,9 @@ namespace PlayerConstDumper
             FS.WriteUShort(RushInBlendTimer);
         }
 
-        public Dictionary<string, string> CreateDictionary()
+        public ValueDict CreateDictionary()
         {
-            Dictionary<string, string> result = new();
+            ValueDict result = new();
             foreach (var prop in GetType().GetProperties())
             {
                 var name = prop.Name;
@@ -5422,7 +5422,7 @@ namespace PlayerConstDumper
         {
             var res = new PlayerConst();
             var text = File.ReadAllText(file.FullName);
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+            var dict = JsonConvert.DeserializeObject<ValueDict>(text);
             foreach (var prop in typeof(PlayerConst).GetProperties())
             {
                 var proptype = prop.PropertyType;
